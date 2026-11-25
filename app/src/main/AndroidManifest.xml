@@ -1,7 +1,12 @@
 
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Интернет для загрузки моделей перевода -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Микрофон для голосового ввода -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
