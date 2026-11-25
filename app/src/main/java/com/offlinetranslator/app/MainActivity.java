@@ -1,3 +1,4 @@
+
 package com.offlinetranslator.app;
 
 import android.app.Activity;
@@ -18,8 +19,13 @@ import org.json.JSONObject;
 public class MainActivity extends Activity {
 
     private WebView webView;
+
     private Translator ruEnTranslator;
     private Translator enRuTranslator;
+
+    private boolean pageLoaded = false;
+    private boolean modelsReady = false;
+    private String modelError = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,20 @@ public class MainActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.addJavascriptInterface(new AndroidBridge(), "AndroidBridge");
+        webView.addJavascriptInterface(
+                new AndroidBridge(),
+                "AndroidBridge"
+        );
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                pageLoaded = true;
+                notifyModelStatus();
+            }
+        });
 
         webView.loadUrl("file:///android_asset/index.html");
 
@@ -62,20 +80,52 @@ public class MainActivity extends Activity {
 
         ruEnTranslator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener(unused -> {
+
                     enRuTranslator.downloadModelIfNeeded(conditions)
-                            .addOnSuccessListener(unused2 ->
-                                    runOnUiThread(() ->
-                                            sendToJs("onModelsReady", true, "")
-                                    )
-                            )
-                            .addOnFailureListener(e ->
-                                    sendToJs("onModelsError", false,
-                                            e.getMessage())
-                            );
+                            .addOnSuccessListener(unused2 -> {
+
+                                modelsReady = true;
+                                modelError = "";
+
+                                notifyModelStatus();
+                            })
+                            .addOnFailureListener(e -> {
+
+                                modelsReady = false;
+                                modelError = getErrorMessage(e);
+
+                                notifyModelStatus();
+                            });
+
                 })
-                .addOnFailureListener(e ->
-                        sendToJs("onModelsError", false, e.getMessage())
-                );
+                .addOnFailureListener(e -> {
+
+                    modelsReady = false;
+                    modelError = getErrorMessage(e);
+
+                    notifyModelStatus();
+                });
+    }
+
+    private void notifyModelStatus() {
+
+        if (!pageLoaded) {
+            return;
+        }
+
+        if (modelsReady) {
+            sendToJs("onModelsReady", true, "");
+        } else if (!modelError.isEmpty()) {
+            sendToJs("onModelsError", false, modelError);
+        }
+    }
+
+    private String getErrorMessage(Exception e) {
+        if (e == null || e.getMessage() == null) {
+            return "Неизвестная ошибка загрузки моделей";
+        }
+
+        return e.getMessage();
     }
 
     private class AndroidBridge {
@@ -84,8 +134,20 @@ public class MainActivity extends Activity {
         public void translateText(String text, String direction) {
 
             if (text == null || text.trim().isEmpty()) {
-                sendToJs("onTranslationError", false,
-                        "Введите текст для перевода");
+                sendToJs(
+                        "onTranslationError",
+                        false,
+                        "Введите текст для перевода"
+                );
+                return;
+            }
+
+            if (!modelsReady) {
+                sendToJs(
+                        "onTranslationError",
+                        false,
+                        "Модели перевода ещё не готовы"
+                );
                 return;
             }
 
@@ -93,48 +155,89 @@ public class MainActivity extends Activity {
 
             if ("ru-en".equals(direction)) {
                 translator = ruEnTranslator;
-            } else {
+            } else if ("en-ru".equals(direction)) {
                 translator = enRuTranslator;
+            } else {
+                sendToJs(
+                        "onTranslationError",
+                        false,
+                        "Неизвестное направление перевода"
+                );
+                return;
             }
 
             if (translator == null) {
-                sendToJs("onTranslationError", false,
-                        "Переводчик ещё не готов");
+                sendToJs(
+                        "onTranslationError",
+                        false,
+                        "Переводчик недоступен"
+                );
                 return;
             }
 
             translator.translate(text)
-                    .addOnSuccessListener(result ->
-                            sendToJs("onTranslationSuccess", true, result)
-                    )
-                    .addOnFailureListener(e ->
-                            sendToJs("onTranslationError", false,
-                                    e.getMessage())
-                    );
+                    .addOnSuccessListener(result -> {
+                        sendToJs(
+                                "onTranslationSuccess",
+                                true,
+                                result
+                        );
+                    })
+                    .addOnFailureListener(e -> {
+                        sendToJs(
+                                "onTranslationError",
+                                false,
+                                getErrorMessage(e)
+                        );
+                    });
         }
     }
 
-    private void sendToJs(String function, boolean success, String message) {
-        if (webView == null) return;
+    private void sendToJs(
+            String function,
+            boolean success,
+            String message
+    ) {
+
+        if (webView == null) {
+            return;
+        }
 
         String safeMessage = JSONObject.quote(
                 message == null ? "" : message
         );
 
-        runOnUiThread(() -> webView.evaluateJavascript(
-                "if(window." + function + "){" +
-                        "window." + function + "(" +
-                        success + "," + safeMessage + ");}",
-                null
-        ));
+        runOnUiThread(() -> {
+
+            if (webView == null || !pageLoaded) {
+                return;
+            }
+
+            String javascript =
+                    "if(window." + function + "){" +
+                    "window." + function + "(" +
+                    success + "," + safeMessage + ");}";
+
+            webView.evaluateJavascript(javascript, null);
+        });
     }
 
     @Override
     protected void onDestroy() {
-        if (ruEnTranslator != null) ruEnTranslator.close();
-        if (enRuTranslator != null) enRuTranslator.close();
 
-        if (webView != null) webView.destroy();
+        if (ruEnTranslator != null) {
+            ruEnTranslator.close();
+        }
+
+        if (enRuTranslator != null) {
+            enRuTranslator.close();
+        }
+
+        if (webView != null) {
+            webView.removeJavascriptInterface("AndroidBridge");
+            webView.destroy();
+            webView = null;
+        }
 
         super.onDestroy();
     }
