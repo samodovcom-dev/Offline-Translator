@@ -1,4 +1,3 @@
-
 plugins {
     id 'com.android.application'
 }
@@ -20,4 +19,8 @@ android {
             minifyEnabled false
         }
     }
+}
+
+dependencies {
+    implementation 'com.google.mlkit:translate:17.0.3'
 }
