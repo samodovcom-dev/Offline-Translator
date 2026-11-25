@@ -44,9 +44,7 @@ body {
     font-size: 25px;
 }
 
-.header h1 {
-    font-size: 23px;
-}
+.header h1 { font-size: 23px; }
 
 .header p {
     color: #94a3b8;
@@ -130,15 +128,14 @@ textarea {
     padding: 16px 17px;
 }
 
-textarea::placeholder {
-    color: #64748b;
-}
+textarea::placeholder { color: #64748b; }
 
 .actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 14px;
+    flex-wrap: wrap;
 }
 
 .icon-btn {
@@ -146,8 +143,13 @@ textarea::placeholder {
     color: #94a3b8;
     border: none;
     padding: 9px;
-    font-size: 19px;
+    font-size: 21px;
     cursor: pointer;
+}
+
+.icon-btn:active {
+    color: #8eb2ff;
+    transform: scale(.9);
 }
 
 .translate {
@@ -163,18 +165,14 @@ textarea::placeholder {
     margin-bottom: 15px;
 }
 
-.translate:active {
-    transform: scale(.98);
-}
+.translate:active { transform: scale(.98); }
 
 .translate:disabled {
     opacity: .55;
     cursor: not-allowed;
 }
 
-.output {
-    min-height: 150px;
-}
+.output { min-height: 150px; }
 
 .result {
     white-space: pre-wrap;
@@ -185,15 +183,14 @@ textarea::placeholder {
     overflow-wrap: anywhere;
 }
 
-.empty {
-    color: #64748b;
-}
+.empty { color: #64748b; }
 
 .result-actions {
     border-top: 1px solid #29374d;
     display: flex;
     gap: 10px;
     padding: 10px;
+    flex-wrap: wrap;
 }
 
 .result-actions button {
@@ -213,9 +210,7 @@ textarea::placeholder {
     padding: 15px;
 }
 
-.history {
-    margin-top: 20px;
-}
+.history { margin-top: 20px; }
 
 .history h3 {
     font-size: 16px;
@@ -305,8 +300,10 @@ textarea::placeholder {
         ></textarea>
 
         <div class="actions">
-            <button class="icon-btn" onclick="clearText()">✕</button>
-            <button class="icon-btn" onclick="copyInput()">📋</button>
+            <button class="icon-btn" onclick="clearText()" title="Очистить">✕</button>
+            <button class="icon-btn" onclick="copyInput()" title="Копировать">📋</button>
+            <button class="icon-btn" onclick="startVoiceInput()" title="Голосовой ввод">🎙️</button>
+            <button class="icon-btn" onclick="speakInput()" title="Прослушать текст">🔊</button>
         </div>
     </div>
 
@@ -326,6 +323,7 @@ textarea::placeholder {
 
         <div class="result-actions">
             <button onclick="copyResult()">📋 Копировать</button>
+            <button onclick="speakResult()">🔊 Слушать</button>
             <button onclick="saveFavorite()">⭐ Избранное</button>
         </div>
     </div>
@@ -339,12 +337,12 @@ textarea::placeholder {
     </div>
 
     <div class="info">
-        Модели загружаются один раз.
-        После загрузки перевод работает без интернета.
+        Модели перевода загружаются один раз.
+        Голосовой ввод может требовать интернет и языковой пакет.
     </div>
 
     <div class="footer">
-        OFFLINE TRANSLATOR • VERSION 1.0
+        OFFLINE TRANSLATOR • VERSION 1.1
     </div>
 
 </div>
@@ -530,6 +528,68 @@ function copyText(text) {
     area.remove();
 }
 
+// ГОЛОСОВОЙ ВВОД
+
+function startVoiceInput() {
+    if (!window.AndroidBridge) {
+        alert("Нет подключения к Android.");
+        return;
+    }
+
+    const language = direction === 0 ? "ru-RU" : "en-US";
+
+    AndroidBridge.startListening(language);
+}
+
+function onSpeechResult(success, text) {
+    if (success) {
+        document.getElementById("input").value = text;
+        updateCounter();
+    } else {
+        alert("Ошибка распознавания речи: " + text);
+    }
+}
+
+// ОЗВУЧИВАНИЕ
+
+function speakInput() {
+    const text = document.getElementById("input").value.trim();
+
+    if (!text) {
+        alert("Сначала введите текст.");
+        return;
+    }
+
+    if (!window.AndroidBridge) {
+        alert("Нет подключения к Android.");
+        return;
+    }
+
+    const language = direction === 0 ? "ru-RU" : "en-US";
+
+    AndroidBridge.speakText(text, language);
+}
+
+function speakResult() {
+    const output = document.getElementById("result");
+
+    if (output.classList.contains("empty")) {
+        alert("Сначала сделайте перевод.");
+        return;
+    }
+
+    if (!window.AndroidBridge) {
+        alert("Нет подключения к Android.");
+        return;
+    }
+
+    const language = direction === 0 ? "en-US" : "ru-RU";
+
+    AndroidBridge.speakText(output.textContent, language);
+}
+
+// ИЗБРАННОЕ
+
 function saveFavorite() {
     const input = document.getElementById("input").value.trim();
     const output = document.getElementById("result");
@@ -555,6 +615,8 @@ function saveFavorite() {
 
     alert("⭐ Добавлено в избранное!");
 }
+
+// ИСТОРИЯ
 
 function addHistory(input, result) {
     let history = JSON.parse(
