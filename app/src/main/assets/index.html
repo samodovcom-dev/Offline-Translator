@@ -8,249 +8,256 @@
 
 <style>
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  background: #0b1120;
-  color: #f1f5f9;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  padding: 18px;
+    background: #0b1120;
+    color: #f1f5f9;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    padding: 18px;
 }
 
 .app {
-  max-width: 600px;
-  margin: auto;
+    max-width: 600px;
+    margin: auto;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 15px 0 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 15px 0 25px;
 }
 
 .logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 15px;
-  background: linear-gradient(135deg,#4778ff,#7c4dff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: linear-gradient(135deg,#4778ff,#7c4dff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
 }
 
 .header h1 {
-  font-size: 23px;
+    font-size: 23px;
 }
 
 .header p {
-  color: #94a3b8;
-  font-size: 13px;
-  margin-top: 4px;
+    color: #94a3b8;
+    font-size: 13px;
+    margin-top: 4px;
 }
 
 .badge {
-  margin-left: auto;
-  color: #4ade80;
-  background: #143326;
-  padding: 7px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+    margin-left: auto;
+    color: #facc15;
+    background: #332b16;
+    padding: 7px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    text-align: center;
 }
 
 .languages {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: #172235;
-  border: 1px solid #29374d;
-  border-radius: 18px;
-  padding: 14px;
-  margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #172235;
+    border: 1px solid #29374d;
+    border-radius: 18px;
+    padding: 14px;
+    margin-bottom: 15px;
 }
 
 .lang {
-  flex: 1;
-  font-size: 16px;
-  font-weight: bold;
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .lang small {
-  display: block;
-  color: #94a3b8;
-  font-size: 12px;
-  margin-bottom: 6px;
+    display: block;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-bottom: 6px;
 }
 
 .swap {
-  background: #263751;
-  color: #8eb2ff;
-  border: none;
-  width: 43px;
-  height: 43px;
-  border-radius: 13px;
-  font-size: 21px;
-  cursor: pointer;
+    background: #263751;
+    color: #8eb2ff;
+    border: none;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    font-size: 21px;
+    cursor: pointer;
 }
 
 .card {
-  background: #172235;
-  border: 1px solid #29374d;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 15px;
+    background: #172235;
+    border: 1px solid #29374d;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
 }
 
 .card-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 17px 17px 0;
-  color: #94a3b8;
-  font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    padding: 17px 17px 0;
+    color: #94a3b8;
+    font-size: 13px;
 }
 
 textarea {
-  display: block;
-  width: 100%;
-  height: 160px;
-  resize: vertical;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: white;
-  font-size: 19px;
-  line-height: 1.5;
-  padding: 16px 17px;
+    display: block;
+    width: 100%;
+    height: 160px;
+    resize: vertical;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 19px;
+    line-height: 1.5;
+    padding: 16px 17px;
 }
 
 textarea::placeholder {
-  color: #64748b;
+    color: #64748b;
 }
 
 .actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px 14px;
 }
 
 .icon-btn {
-  background: transparent;
-  color: #94a3b8;
-  border: none;
-  padding: 9px;
-  font-size: 19px;
-  cursor: pointer;
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    padding: 9px;
+    font-size: 19px;
+    cursor: pointer;
 }
 
 .translate {
-  width: 100%;
-  border: none;
-  padding: 17px;
-  border-radius: 17px;
-  background: linear-gradient(135deg,#4778ff,#7454ff);
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 15px;
+    width: 100%;
+    border: none;
+    padding: 17px;
+    border-radius: 17px;
+    background: linear-gradient(135deg,#4778ff,#7454ff);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .translate:active {
-  transform: scale(.98);
+    transform: scale(.98);
+}
+
+.translate:disabled {
+    opacity: .55;
+    cursor: not-allowed;
 }
 
 .output {
-  min-height: 150px;
+    min-height: 150px;
 }
 
 .result {
-  white-space: pre-wrap;
-  font-size: 19px;
-  line-height: 1.6;
-  padding: 17px;
-  min-height: 100px;
-  overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 19px;
+    line-height: 1.6;
+    padding: 17px;
+    min-height: 100px;
+    overflow-wrap: anywhere;
 }
 
 .empty {
-  color: #64748b;
+    color: #64748b;
 }
 
 .result-actions {
-  border-top: 1px solid #29374d;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
+    border-top: 1px solid #29374d;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
 }
 
 .result-actions button {
-  background: #263751;
-  color: #dbeafe;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 12px;
-  cursor: pointer;
+    background: #263751;
+    color: #dbeafe;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
 }
 
 .info {
-  color: #94a3b8;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.6;
-  padding: 15px;
+    color: #94a3b8;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 15px;
 }
 
 .history {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .history h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
+    font-size: 16px;
+    margin-bottom: 12px;
 }
 
 .history-item {
-  background: #172235;
-  border: 1px solid #29374d;
-  padding: 13px;
-  border-radius: 14px;
-  margin-bottom: 9px;
-  font-size: 14px;
-  overflow-wrap: anywhere;
+    background: #172235;
+    border: 1px solid #29374d;
+    padding: 13px;
+    border-radius: 14px;
+    margin-bottom: 9px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    cursor: pointer;
 }
 
 .history-item div {
-  color: #94a3b8;
-  margin-top: 6px;
+    color: #94a3b8;
+    margin-top: 6px;
 }
 
 .clear-history {
-  color: #94a3b8;
-  background: transparent;
-  border: none;
-  margin-top: 10px;
-  cursor: pointer;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 .footer {
-  text-align: center;
-  color: #475569;
-  font-size: 12px;
-  margin-top: 30px;
-  padding-bottom: 20px;
+    text-align: center;
+    color: #475569;
+    font-size: 12px;
+    margin-top: 30px;
+    padding-bottom: 20px;
 }
 
 @media (max-width:380px) {
-  body { padding: 12px; }
-  .header h1 { font-size: 20px; }
-  textarea { font-size: 17px; }
+    body { padding: 12px; }
+    .header h1 { font-size: 20px; }
+    textarea { font-size: 17px; }
 }
 </style>
 </head>
@@ -259,408 +266,365 @@ textarea::placeholder {
 
 <div class="app">
 
-  <header class="header">
-    <div class="logo">🌐</div>
-    <div>
-      <h1>Offline Translator</h1>
-      <p>Русский ↔ English</p>
-    </div>
-    <div class="badge">● Offline</div>
-  </header>
+    <header class="header">
+        <div class="logo">🌐</div>
+        <div>
+            <h1>Offline Translator</h1>
+            <p>Русский ↔ English</p>
+        </div>
+        <div class="badge" id="modelStatus">
+            ● Загрузка моделей...
+        </div>
+    </header>
 
-  <div class="languages">
-    <div class="lang">
-      <small>Перевести с</small>
-      <span id="fromLang">🇷🇺 Русский</span>
-    </div>
+    <div class="languages">
+        <div class="lang">
+            <small>Перевести с</small>
+            <span id="fromLang">🇷🇺 Русский</span>
+        </div>
 
-    <button class="swap" onclick="swapLanguages()">⇄</button>
+        <button class="swap" onclick="swapLanguages()">⇄</button>
 
-    <div class="lang" style="text-align:right">
-      <small>Перевести на</small>
-      <span id="toLang">🇬🇧 English</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-top">
-      <span>Текст</span>
-      <span id="counter">0 / 5000</span>
+        <div class="lang" style="text-align:right">
+            <small>Перевести на</small>
+            <span id="toLang">🇬🇧 English</span>
+        </div>
     </div>
 
-    <textarea id="input"
-      maxlength="5000"
-      placeholder="Введите текст для перевода..."
-      oninput="updateCounter()"></textarea>
+    <div class="card">
+        <div class="card-top">
+            <span>Текст</span>
+            <span id="counter">0 / 5000</span>
+        </div>
 
-    <div class="actions">
-      <button class="icon-btn" onclick="clearText()" title="Очистить">✕</button>
-      <button class="icon-btn" onclick="copyInput()" title="Копировать">📋</button>
-    </div>
-  </div>
+        <textarea
+            id="input"
+            maxlength="5000"
+            placeholder="Введите текст для перевода..."
+            oninput="updateCounter()"
+        ></textarea>
 
-  <button class="translate" onclick="translateText()">
-    ✨ Перевести
-  </button>
-
-  <div class="card output">
-    <div class="card-top">
-      <span>Перевод</span>
-      <span>✨</span>
+        <div class="actions">
+            <button class="icon-btn" onclick="clearText()">✕</button>
+            <button class="icon-btn" onclick="copyInput()">📋</button>
+        </div>
     </div>
 
-    <div class="result empty" id="result">
-      Здесь появится перевод
+    <button class="translate" onclick="translateText()" disabled>
+        ⏳ Загрузка...
+    </button>
+
+    <div class="card output">
+        <div class="card-top">
+            <span>Перевод</span>
+            <span>✨</span>
+        </div>
+
+        <div class="result empty" id="result">
+            Здесь появится перевод
+        </div>
+
+        <div class="result-actions">
+            <button onclick="copyResult()">📋 Копировать</button>
+            <button onclick="saveFavorite()">⭐ Избранное</button>
+        </div>
     </div>
 
-    <div class="result-actions">
-      <button onclick="copyResult()">📋 Копировать</button>
-      <button onclick="saveFavorite()">⭐ Избранное</button>
+    <div class="history">
+        <h3>🕘 История переводов</h3>
+        <div id="historyList"></div>
+        <button class="clear-history" onclick="clearHistory()">
+            Очистить историю
+        </button>
     </div>
-  </div>
 
-  <div class="history">
-    <h3>🕘 История переводов</h3>
-    <div id="historyList"></div>
-    <button class="clear-history" onclick="clearHistory()">Очистить историю</button>
-  </div>
+    <div class="info">
+        Модели загружаются один раз.
+        После загрузки перевод работает без интернета.
+    </div>
 
-  <div class="info">
-    Переводчик работает без подключения к интернету.<br>
-    Начальная версия использует встроенную базу слов и фраз.
-  </div>
-
-  <div class="footer">
-    OFFLINE TRANSLATOR • VERSION 1.0
-  </div>
+    <div class="footer">
+        OFFLINE TRANSLATOR • VERSION 1.0
+    </div>
 
 </div>
 
 <script>
+
 let direction = 0;
+let modelsReady = false;
+let translating = false;
 
-const dictionary = {
-  "привет":"hello",
-  "здравствуй":"hello",
-  "здравствуйте":"hello",
-  "пока":"bye",
-  "до свидания":"goodbye",
-  "спасибо":"thank you",
-  "пожалуйста":"please",
-  "да":"yes",
-  "нет":"no",
-  "хорошо":"good",
-  "плохо":"bad",
-  "вода":"water",
-  "дом":"house",
-  "школа":"school",
-  "книга":"book",
-  "стол":"table",
-  "стул":"chair",
-  "машина":"car",
-  "человек":"person",
-  "друг":"friend",
-  "семья":"family",
-  "мама":"mother",
-  "папа":"father",
-  "брат":"brother",
-  "сестра":"sister",
-  "день":"day",
-  "ночь":"night",
-  "утро":"morning",
-  "вечер":"evening",
-  "сегодня":"today",
-  "завтра":"tomorrow",
-  "вчера":"yesterday",
-  "время":"time",
-  "работа":"work",
-  "игра":"game",
-  "любовь":"love",
-  "счастье":"happiness",
-  "мир":"world",
-  "я":"I",
-  "ты":"you",
-  "он":"he",
-  "она":"she",
-  "мы":"we",
-  "они":"they",
-  "мой":"my",
-  "твой":"your",
-  "большой":"big",
-  "маленький":"small",
-  "красивый":"beautiful",
-  "новый":"new",
-  "старый":"old",
-  "быстрый":"fast",
-  "медленный":"slow",
-  "умный":"smart",
-  "интересный":"interesting",
-  "есть":"eat",
-  "пить":"drink",
-  "идти":"go",
-  "бежать":"run",
-  "говорить":"speak",
-  "читать":"read",
-  "писать":"write",
-  "учить":"learn",
-  "понимать":"understand",
-  "знать":"know",
-  "думать":"think",
-  "хотеть":"want",
-  "любить":"love",
-  "смотреть":"watch",
-  "слушать":"listen",
-  "играть":"play",
-  "делать":"do",
-  "создавать":"create",
-  "помогать":"help",
-  "открыть":"open",
-  "закрыть":"close",
-  "начать":"start",
-  "закончить":"finish",
-  "английский":"English",
-  "русский":"Russian",
-  "язык":"language",
-  "перевод":"translation",
-  "слово":"word",
-  "предложение":"sentence",
-  "вопрос":"question",
-  "ответ":"answer",
-  "когда":"when",
-  "где":"where",
-  "почему":"why",
-  "как":"how",
-  "что":"what",
-  "кто":"who",
-  "сколько":"how much",
-  "очень":"very",
-  "тоже":"also",
-  "здесь":"here",
-  "там":"there",
-  "всегда":"always",
-  "никогда":"never",
-  "иногда":"sometimes",
-  "может":"maybe",
-  "конечно":"of course",
-  "извините":"excuse me",
-  "извини":"sorry",
-  "доброе утро":"good morning",
-  "добрый вечер":"good evening",
-  "доброй ночи":"good night",
-  "как дела":"how are you",
-  "меня зовут":"my name is",
-  "я не знаю":"I don't know",
-  "я понимаю":"I understand",
-  "я не понимаю":"I don't understand",
-  "я люблю тебя":"I love you",
-  "что ты делаешь":"what are you doing",
-  "куда ты идешь":"where are you going",
-  "я хочу":"I want",
-  "мне нравится":"I like",
-  "до встречи":"see you",
-  "без проблем":"no problem",
-  "всё хорошо":"everything is fine",
-  "добро пожаловать":"welcome",
-  "с днем рождения":"happy birthday",
-  "удачи":"good luck"
-};
+function setStatus(text, color) {
+    const badge = document.getElementById("modelStatus");
+    badge.textContent = text;
+    badge.style.color = color;
+}
 
-const reverseDictionary = {};
+function onModelsReady(success, message) {
+    if (success) {
+        modelsReady = true;
 
-for (const [ru,en] of Object.entries(dictionary)) {
-  reverseDictionary[en] = ru;
+        setStatus("● Готов к работе", "#4ade80");
+
+        const button = document.querySelector(".translate");
+        button.disabled = false;
+        button.textContent = "✨ Перевести";
+
+    } else {
+        onModelsError(false, message);
+    }
+}
+
+function onModelsError(success, message) {
+    modelsReady = false;
+
+    setStatus("● Ошибка загрузки", "#f87171");
+
+    const button = document.querySelector(".translate");
+    button.disabled = true;
+    button.textContent = "Модели не загружены";
+
+    console.error("Model error:", message);
+}
+
+function onTranslationSuccess(success, message) {
+    translating = false;
+
+    const button = document.querySelector(".translate");
+    button.textContent = "✨ Перевести";
+    button.disabled = !modelsReady;
+
+    if (!success) {
+        onTranslationError(false, message);
+        return;
+    }
+
+    const input = document.getElementById("input").value.trim();
+    const output = document.getElementById("result");
+
+    output.textContent = message;
+    output.classList.remove("empty");
+
+    addHistory(input, message);
+}
+
+function onTranslationError(success, message) {
+    translating = false;
+
+    const button = document.querySelector(".translate");
+    button.textContent = "✨ Перевести";
+    button.disabled = !modelsReady;
+
+    const output = document.getElementById("result");
+
+    output.textContent =
+        "Ошибка перевода: " + (message || "Неизвестная ошибка");
+
+    output.classList.remove("empty");
 }
 
 function updateCounter() {
-  const value = document.getElementById("input").value;
-  document.getElementById("counter").textContent =
-    value.length + " / 5000";
+    const value = document.getElementById("input").value;
+
+    document.getElementById("counter").textContent =
+        value.length + " / 5000";
 }
 
 function swapLanguages() {
-  direction = direction === 0 ? 1 : 0;
+    direction = direction === 0 ? 1 : 0;
 
-  document.getElementById("fromLang").textContent =
-    direction === 0 ? "🇷🇺 Русский" : "🇬🇧 English";
+    document.getElementById("fromLang").textContent =
+        direction === 0 ? "🇷🇺 Русский" : "🇬🇧 English";
 
-  document.getElementById("toLang").textContent =
-    direction === 0 ? "🇬🇧 English" : "🇷🇺 Русский";
+    document.getElementById("toLang").textContent =
+        direction === 0 ? "🇬🇧 English" : "🇷🇺 Русский";
 
-  const oldInput = document.getElementById("input").value;
-  const oldResult = document.getElementById("result").textContent;
+    const input = document.getElementById("input");
+    const output = document.getElementById("result");
 
-  if (!document.getElementById("result").classList.contains("empty")) {
-    document.getElementById("input").value = oldResult;
-    document.getElementById("result").textContent = oldInput;
-  }
+    if (!output.classList.contains("empty")) {
+        const oldInput = input.value;
+        input.value = output.textContent;
+        output.textContent = oldInput;
+    }
 
-  updateCounter();
+    updateCounter();
 }
 
 function translateText() {
-  const input = document.getElementById("input").value.trim();
+    const input = document.getElementById("input").value.trim();
 
-  if (!input) {
-    document.getElementById("result").textContent =
-      "Сначала введите текст.";
-    return;
-  }
+    if (!input) {
+        alert("Сначала введите текст.");
+        return;
+    }
 
-  const result = direction === 0
-    ? translateRuEn(input)
-    : translateEnRu(input);
+    if (!modelsReady) {
+        alert("Подождите, пока загрузятся модели перевода.");
+        return;
+    }
 
-  const output = document.getElementById("result");
-  output.textContent = result;
-  output.classList.remove("empty");
+    if (translating) return;
 
-  addHistory(input, result);
-}
+    if (!window.AndroidBridge) {
+        alert("Нет подключения к Android-переводчику.");
+        return;
+    }
 
-function translateRuEn(text) {
-  const normalized = text.toLowerCase().trim();
+    translating = true;
 
-  if (dictionary[normalized]) {
-    return dictionary[normalized];
-  }
+    const button = document.querySelector(".translate");
+    button.textContent = "⏳ Перевод...";
+    button.disabled = true;
 
-  let result = normalized;
+    const output = document.getElementById("result");
+    output.textContent = "Выполняется перевод...";
+    output.classList.remove("empty");
 
-  const phrases = Object.keys(dictionary)
-    .filter(word => word.includes(" "))
-    .sort((a,b) => b.length-a.length);
-
-  for (const phrase of phrases) {
-    result = result.replaceAll(phrase, dictionary[phrase]);
-  }
-
-  result = result.replace(/[а-яё]+/gi, word => {
-    return dictionary[word.toLowerCase()] || word;
-  });
-
-  return capitalize(result);
-}
-
-function translateEnRu(text) {
-  const normalized = text.toLowerCase().trim();
-
-  if (reverseDictionary[normalized]) {
-    return reverseDictionary[normalized];
-  }
-
-  let result = normalized;
-
-  const phrases = Object.keys(reverseDictionary)
-    .filter(word => word.includes(" "))
-    .sort((a,b) => b.length-a.length);
-
-  for (const phrase of phrases) {
-    result = result.replaceAll(phrase, reverseDictionary[phrase]);
-  }
-
-  result = result.replace(/[a-z']+/gi, word => {
-    return reverseDictionary[word.toLowerCase()] || word;
-  });
-
-  return capitalize(result);
-}
-
-function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
+    AndroidBridge.translateText(
+        input,
+        direction === 0 ? "ru-en" : "en-ru"
+    );
 }
 
 function clearText() {
-  document.getElementById("input").value = "";
-  document.getElementById("result").textContent =
-    "Здесь появится перевод";
-  document.getElementById("result").classList.add("empty");
-  updateCounter();
+    document.getElementById("input").value = "";
+
+    const output = document.getElementById("result");
+
+    output.textContent = "Здесь появится перевод";
+    output.classList.add("empty");
+
+    updateCounter();
 }
 
 function copyInput() {
-  copyText(document.getElementById("input").value);
+    copyText(document.getElementById("input").value);
 }
 
 function copyResult() {
-  const text = document.getElementById("result").textContent;
-  if (!document.getElementById("result").classList.contains("empty")) {
-    copyText(text);
-  }
+    const output = document.getElementById("result");
+
+    if (!output.classList.contains("empty")) {
+        copyText(output.textContent);
+    }
 }
 
 function copyText(text) {
-  if (!text) return;
+    if (!text) return;
 
-  navigator.clipboard.writeText(text)
-    .then(() => alert("Скопировано!"))
-    .catch(() => alert("Не удалось скопировать"));
+    const area = document.createElement("textarea");
+    area.value = text;
+
+    document.body.appendChild(area);
+    area.select();
+
+    try {
+        document.execCommand("copy");
+        alert("Скопировано!");
+    } catch (e) {
+        alert("Не удалось скопировать.");
+    }
+
+    area.remove();
 }
 
 function saveFavorite() {
-  const input = document.getElementById("input").value;
-  const result = document.getElementById("result").textContent;
+    const input = document.getElementById("input").value.trim();
+    const output = document.getElementById("result");
 
-  if (!input || document.getElementById("result").classList.contains("empty")) {
-    alert("Сначала сделайте перевод!");
-    return;
-  }
+    if (!input || output.classList.contains("empty")) {
+        alert("Сначала сделайте перевод!");
+        return;
+    }
 
-  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  favorites.unshift({input, result});
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+    let favorites = JSON.parse(
+        localStorage.getItem("favorites") || "[]"
+    );
 
-  alert("⭐ Добавлено в избранное!");
+    favorites.unshift({
+        input: input,
+        result: output.textContent
+    });
+
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
+
+    alert("⭐ Добавлено в избранное!");
 }
 
 function addHistory(input, result) {
-  let history = JSON.parse(localStorage.getItem("history") || "[]");
+    let history = JSON.parse(
+        localStorage.getItem("history") || "[]"
+    );
 
-  history.unshift({input, result});
-  history = history.slice(0,30);
+    history.unshift({
+        input: input,
+        result: result
+    });
 
-  localStorage.setItem("history", JSON.stringify(history));
-  showHistory();
+    history = history.slice(0, 30);
+
+    localStorage.setItem(
+        "history",
+        JSON.stringify(history)
+    );
+
+    showHistory();
 }
 
 function showHistory() {
-  const history = JSON.parse(localStorage.getItem("history") || "[]");
-  const list = document.getElementById("historyList");
+    const history = JSON.parse(
+        localStorage.getItem("history") || "[]"
+    );
 
-  list.innerHTML = "";
+    const list = document.getElementById("historyList");
 
-  history.slice(0,10).forEach(item => {
-    const div = document.createElement("div");
-    div.className = "history-item";
+    list.innerHTML = "";
 
-    const first = document.createElement("div");
-    first.style.color = "#f1f5f9";
-    first.textContent = item.input;
+    history.slice(0, 10).forEach(item => {
+        const div = document.createElement("div");
+        div.className = "history-item";
 
-    const second = document.createElement("div");
-    second.textContent = item.result;
+        const first = document.createElement("div");
+        first.style.color = "#f1f5f9";
+        first.textContent = item.input;
 
-    div.appendChild(first);
-    div.appendChild(second);
+        const second = document.createElement("div");
+        second.textContent = item.result;
 
-    div.onclick = () => {
-      document.getElementById("input").value = item.input;
-      document.getElementById("result").textContent = item.result;
-      document.getElementById("result").classList.remove("empty");
-      updateCounter();
-    };
+        div.appendChild(first);
+        div.appendChild(second);
 
-    list.appendChild(div);
-  });
+        div.onclick = () => {
+            document.getElementById("input").value = item.input;
+
+            const output = document.getElementById("result");
+
+            output.textContent = item.result;
+            output.classList.remove("empty");
+
+            updateCounter();
+        };
+
+        list.appendChild(div);
+    });
 }
 
 function clearHistory() {
-  if (confirm("Удалить историю переводов?")) {
-    localStorage.removeItem("history");
-    showHistory();
-  }
+    if (confirm("Удалить историю переводов?")) {
+        localStorage.removeItem("history");
+        showHistory();
+    }
 }
 
+document.querySelector(".translate").disabled = true;
+
 showHistory();
+
 </script>
 
 </body>
