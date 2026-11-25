@@ -1,1 +1,667 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Offline Translator</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0b1120;
+  color: #f1f5f9;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  padding: 18px;
+}
+
+.app {
+  max-width: 600px;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0 25px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: linear-gradient(135deg,#4778ff,#7c4dff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.header h1 {
+  font-size: 23px;
+}
+
+.header p {
+  color: #94a3b8;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.badge {
+  margin-left: auto;
+  color: #4ade80;
+  background: #143326;
+  padding: 7px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.languages {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #172235;
+  border: 1px solid #29374d;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 15px;
+}
+
+.lang {
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.lang small {
+  display: block;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.swap {
+  background: #263751;
+  color: #8eb2ff;
+  border: none;
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.card {
+  background: #172235;
+  border: 1px solid #29374d;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 17px 17px 0;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 160px;
+  resize: vertical;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 19px;
+  line-height: 1.5;
+  padding: 16px 17px;
+}
+
+textarea::placeholder {
+  color: #64748b;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 14px;
+}
+
+.icon-btn {
+  background: transparent;
+  color: #94a3b8;
+  border: none;
+  padding: 9px;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.translate {
+  width: 100%;
+  border: none;
+  padding: 17px;
+  border-radius: 17px;
+  background: linear-gradient(135deg,#4778ff,#7454ff);
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.translate:active {
+  transform: scale(.98);
+}
+
+.output {
+  min-height: 150px;
+}
+
+.result {
+  white-space: pre-wrap;
+  font-size: 19px;
+  line-height: 1.6;
+  padding: 17px;
+  min-height: 100px;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: #64748b;
+}
+
+.result-actions {
+  border-top: 1px solid #29374d;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.result-actions button {
+  background: #263751;
+  color: #dbeafe;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.info {
+  color: #94a3b8;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 15px;
+}
+
+.history {
+  margin-top: 20px;
+}
+
+.history h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.history-item {
+  background: #172235;
+  border: 1px solid #29374d;
+  padding: 13px;
+  border-radius: 14px;
+  margin-bottom: 9px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.history-item div {
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.clear-history {
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  color: #475569;
+  font-size: 12px;
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
+@media (max-width:380px) {
+  body { padding: 12px; }
+  .header h1 { font-size: 20px; }
+  textarea { font-size: 17px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <div class="logo">🌐</div>
+    <div>
+      <h1>Offline Translator</h1>
+      <p>Русский ↔ English</p>
+    </div>
+    <div class="badge">● Offline</div>
+  </header>
+
+  <div class="languages">
+    <div class="lang">
+      <small>Перевести с</small>
+      <span id="fromLang">🇷🇺 Русский</span>
+    </div>
+
+    <button class="swap" onclick="swapLanguages()">⇄</button>
+
+    <div class="lang" style="text-align:right">
+      <small>Перевести на</small>
+      <span id="toLang">🇬🇧 English</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span>Текст</span>
+      <span id="counter">0 / 5000</span>
+    </div>
+
+    <textarea id="input"
+      maxlength="5000"
+      placeholder="Введите текст для перевода..."
+      oninput="updateCounter()"></textarea>
+
+    <div class="actions">
+      <button class="icon-btn" onclick="clearText()" title="Очистить">✕</button>
+      <button class="icon-btn" onclick="copyInput()" title="Копировать">📋</button>
+    </div>
+  </div>
+
+  <button class="translate" onclick="translateText()">
+    ✨ Перевести
+  </button>
+
+  <div class="card output">
+    <div class="card-top">
+      <span>Перевод</span>
+      <span>✨</span>
+    </div>
+
+    <div class="result empty" id="result">
+      Здесь появится перевод
+    </div>
+
+    <div class="result-actions">
+      <button onclick="copyResult()">📋 Копировать</button>
+      <button onclick="saveFavorite()">⭐ Избранное</button>
+    </div>
+  </div>
+
+  <div class="history">
+    <h3>🕘 История переводов</h3>
+    <div id="historyList"></div>
+    <button class="clear-history" onclick="clearHistory()">Очистить историю</button>
+  </div>
+
+  <div class="info">
+    Переводчик работает без подключения к интернету.<br>
+    Начальная версия использует встроенную базу слов и фраз.
+  </div>
+
+  <div class="footer">
+    OFFLINE TRANSLATOR • VERSION 1.0
+  </div>
+
+</div>
+
+<script>
+let direction = 0;
+
+const dictionary = {
+  "привет":"hello",
+  "здравствуй":"hello",
+  "здравствуйте":"hello",
+  "пока":"bye",
+  "до свидания":"goodbye",
+  "спасибо":"thank you",
+  "пожалуйста":"please",
+  "да":"yes",
+  "нет":"no",
+  "хорошо":"good",
+  "плохо":"bad",
+  "вода":"water",
+  "дом":"house",
+  "школа":"school",
+  "книга":"book",
+  "стол":"table",
+  "стул":"chair",
+  "машина":"car",
+  "человек":"person",
+  "друг":"friend",
+  "семья":"family",
+  "мама":"mother",
+  "папа":"father",
+  "брат":"brother",
+  "сестра":"sister",
+  "день":"day",
+  "ночь":"night",
+  "утро":"morning",
+  "вечер":"evening",
+  "сегодня":"today",
+  "завтра":"tomorrow",
+  "вчера":"yesterday",
+  "время":"time",
+  "работа":"work",
+  "игра":"game",
+  "любовь":"love",
+  "счастье":"happiness",
+  "мир":"world",
+  "я":"I",
+  "ты":"you",
+  "он":"he",
+  "она":"she",
+  "мы":"we",
+  "они":"they",
+  "мой":"my",
+  "твой":"your",
+  "большой":"big",
+  "маленький":"small",
+  "красивый":"beautiful",
+  "новый":"new",
+  "старый":"old",
+  "быстрый":"fast",
+  "медленный":"slow",
+  "умный":"smart",
+  "интересный":"interesting",
+  "есть":"eat",
+  "пить":"drink",
+  "идти":"go",
+  "бежать":"run",
+  "говорить":"speak",
+  "читать":"read",
+  "писать":"write",
+  "учить":"learn",
+  "понимать":"understand",
+  "знать":"know",
+  "думать":"think",
+  "хотеть":"want",
+  "любить":"love",
+  "смотреть":"watch",
+  "слушать":"listen",
+  "играть":"play",
+  "делать":"do",
+  "создавать":"create",
+  "помогать":"help",
+  "открыть":"open",
+  "закрыть":"close",
+  "начать":"start",
+  "закончить":"finish",
+  "английский":"English",
+  "русский":"Russian",
+  "язык":"language",
+  "перевод":"translation",
+  "слово":"word",
+  "предложение":"sentence",
+  "вопрос":"question",
+  "ответ":"answer",
+  "когда":"when",
+  "где":"where",
+  "почему":"why",
+  "как":"how",
+  "что":"what",
+  "кто":"who",
+  "сколько":"how much",
+  "очень":"very",
+  "тоже":"also",
+  "здесь":"here",
+  "там":"there",
+  "всегда":"always",
+  "никогда":"never",
+  "иногда":"sometimes",
+  "может":"maybe",
+  "конечно":"of course",
+  "извините":"excuse me",
+  "извини":"sorry",
+  "доброе утро":"good morning",
+  "добрый вечер":"good evening",
+  "доброй ночи":"good night",
+  "как дела":"how are you",
+  "меня зовут":"my name is",
+  "я не знаю":"I don't know",
+  "я понимаю":"I understand",
+  "я не понимаю":"I don't understand",
+  "я люблю тебя":"I love you",
+  "что ты делаешь":"what are you doing",
+  "куда ты идешь":"where are you going",
+  "я хочу":"I want",
+  "мне нравится":"I like",
+  "до встречи":"see you",
+  "без проблем":"no problem",
+  "всё хорошо":"everything is fine",
+  "добро пожаловать":"welcome",
+  "с днем рождения":"happy birthday",
+  "удачи":"good luck"
+};
+
+const reverseDictionary = {};
+
+for (const [ru,en] of Object.entries(dictionary)) {
+  reverseDictionary[en] = ru;
+}
+
+function updateCounter() {
+  const value = document.getElementById("input").value;
+  document.getElementById("counter").textContent =
+    value.length + " / 5000";
+}
+
+function swapLanguages() {
+  direction = direction === 0 ? 1 : 0;
+
+  document.getElementById("fromLang").textContent =
+    direction === 0 ? "🇷🇺 Русский" : "🇬🇧 English";
+
+  document.getElementById("toLang").textContent =
+    direction === 0 ? "🇬🇧 English" : "🇷🇺 Русский";
+
+  const oldInput = document.getElementById("input").value;
+  const oldResult = document.getElementById("result").textContent;
+
+  if (!document.getElementById("result").classList.contains("empty")) {
+    document.getElementById("input").value = oldResult;
+    document.getElementById("result").textContent = oldInput;
+  }
+
+  updateCounter();
+}
+
+function translateText() {
+  const input = document.getElementById("input").value.trim();
+
+  if (!input) {
+    document.getElementById("result").textContent =
+      "Сначала введите текст.";
+    return;
+  }
+
+  const result = direction === 0
+    ? translateRuEn(input)
+    : translateEnRu(input);
+
+  const output = document.getElementById("result");
+  output.textContent = result;
+  output.classList.remove("empty");
+
+  addHistory(input, result);
+}
+
+function translateRuEn(text) {
+  const normalized = text.toLowerCase().trim();
+
+  if (dictionary[normalized]) {
+    return dictionary[normalized];
+  }
+
+  let result = normalized;
+
+  const phrases = Object.keys(dictionary)
+    .filter(word => word.includes(" "))
+    .sort((a,b) => b.length-a.length);
+
+  for (const phrase of phrases) {
+    result = result.replaceAll(phrase, dictionary[phrase]);
+  }
+
+  result = result.replace(/[а-яё]+/gi, word => {
+    return dictionary[word.toLowerCase()] || word;
+  });
+
+  return capitalize(result);
+}
+
+function translateEnRu(text) {
+  const normalized = text.toLowerCase().trim();
+
+  if (reverseDictionary[normalized]) {
+    return reverseDictionary[normalized];
+  }
+
+  let result = normalized;
+
+  const phrases = Object.keys(reverseDictionary)
+    .filter(word => word.includes(" "))
+    .sort((a,b) => b.length-a.length);
+
+  for (const phrase of phrases) {
+    result = result.replaceAll(phrase, reverseDictionary[phrase]);
+  }
+
+  result = result.replace(/[a-z']+/gi, word => {
+    return reverseDictionary[word.toLowerCase()] || word;
+  });
+
+  return capitalize(result);
+}
+
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function clearText() {
+  document.getElementById("input").value = "";
+  document.getElementById("result").textContent =
+    "Здесь появится перевод";
+  document.getElementById("result").classList.add("empty");
+  updateCounter();
+}
+
+function copyInput() {
+  copyText(document.getElementById("input").value);
+}
+
+function copyResult() {
+  const text = document.getElementById("result").textContent;
+  if (!document.getElementById("result").classList.contains("empty")) {
+    copyText(text);
+  }
+}
+
+function copyText(text) {
+  if (!text) return;
+
+  navigator.clipboard.writeText(text)
+    .then(() => alert("Скопировано!"))
+    .catch(() => alert("Не удалось скопировать"));
+}
+
+function saveFavorite() {
+  const input = document.getElementById("input").value;
+  const result = document.getElementById("result").textContent;
+
+  if (!input || document.getElementById("result").classList.contains("empty")) {
+    alert("Сначала сделайте перевод!");
+    return;
+  }
+
+  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  favorites.unshift({input, result});
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+
+  alert("⭐ Добавлено в избранное!");
+}
+
+function addHistory(input, result) {
+  let history = JSON.parse(localStorage.getItem("history") || "[]");
+
+  history.unshift({input, result});
+  history = history.slice(0,30);
+
+  localStorage.setItem("history", JSON.stringify(history));
+  showHistory();
+}
+
+function showHistory() {
+  const history = JSON.parse(localStorage.getItem("history") || "[]");
+  const list = document.getElementById("historyList");
+
+  list.innerHTML = "";
+
+  history.slice(0,10).forEach(item => {
+    const div = document.createElement("div");
+    div.className = "history-item";
+
+    const first = document.createElement("div");
+    first.style.color = "#f1f5f9";
+    first.textContent = item.input;
+
+    const second = document.createElement("div");
+    second.textContent = item.result;
+
+    div.appendChild(first);
+    div.appendChild(second);
+
+    div.onclick = () => {
+      document.getElementById("input").value = item.input;
+      document.getElementById("result").textContent = item.result;
+      document.getElementById("result").classList.remove("empty");
+      updateCounter();
+    };
+
+    list.appendChild(div);
+  });
+}
+
+function clearHistory() {
+  if (confirm("Удалить историю переводов?")) {
+    localStorage.removeItem("history");
+    showHistory();
+  }
+}
+
+showHistory();
+</script>
+
+</body>
+</html>
