@@ -126,13 +126,7 @@ public class MainActivity extends Activity {
         textToSpeech = new TextToSpeech(
                 this,
                 status -> {
-
-                    if (status == TextToSpeech.SUCCESS) {
-                        ttsReady = true;
-                    } else {
-                        ttsReady = false;
-                    }
-
+                    ttsReady = status == TextToSpeech.SUCCESS;
                 }
         );
     }
@@ -201,12 +195,24 @@ public class MainActivity extends Activity {
 
     private void startListeningInternal() {
 
+        Toast.makeText(
+                this,
+                "Проверка голосового ввода...",
+                Toast.LENGTH_SHORT
+        ).show();
+
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+
+            Toast.makeText(
+                    this,
+                    "Служба распознавания речи недоступна",
+                    Toast.LENGTH_LONG
+            ).show();
 
             sendToJs(
                     "onSpeechResult",
                     false,
-                    "Распознавание речи недоступно на устройстве"
+                    "Служба распознавания речи недоступна"
             );
 
             return;
@@ -214,84 +220,74 @@ public class MainActivity extends Activity {
 
         try {
 
-            if (speechRecognizer == null) {
+            if (speechRecognizer != null) {
+                speechRecognizer.destroy();
+                speechRecognizer = null;
+            }
 
-                speechRecognizer =
-                        SpeechRecognizer.createSpeechRecognizer(this);
+            speechRecognizer =
+                    SpeechRecognizer.createSpeechRecognizer(this);
 
-                speechRecognizer.setRecognitionListener(
-                        new RecognitionListener() {
+            speechRecognizer.setRecognitionListener(
+                    new RecognitionListener() {
 
-                            @Override
-                            public void onReadyForSpeech(Bundle params) {
-                            }
+                        @Override
+                        public void onReadyForSpeech(Bundle params) {
+                            runOnUiThread(() ->
+                                    Toast.makeText(
+                                            MainActivity.this,
+                                            "Микрофон готов. Говорите!",
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                            );
+                        }
 
-                            @Override
-                            public void onBeginningOfSpeech() {
-                            }
+                        @Override public void onBeginningOfSpeech() {}
+                        @Override public void onRmsChanged(float rmsdB) {}
+                        @Override public void onBufferReceived(byte[] buffer) {}
+                        @Override public void onEndOfSpeech() {}
 
-                            @Override
-                            public void onRmsChanged(float rmsdB) {
-                            }
+                        @Override
+                        public void onError(int error) {
+                            sendToJs(
+                                    "onSpeechResult",
+                                    false,
+                                    "Ошибка распознавания: " + error
+                            );
+                        }
 
-                            @Override
-                            public void onBufferReceived(byte[] buffer) {
-                            }
+                        @Override
+                        public void onResults(Bundle results) {
 
-                            @Override
-                            public void onEndOfSpeech() {
-                            }
+                            ArrayList<String> matches =
+                                    results.getStringArrayList(
+                                            SpeechRecognizer.RESULTS_RECOGNITION
+                                    );
 
-                            @Override
-                            public void onError(int error) {
+                            if (matches != null && !matches.isEmpty()) {
+
+                                sendToJs(
+                                        "onSpeechResult",
+                                        true,
+                                        matches.get(0)
+                                );
+
+                            } else {
 
                                 sendToJs(
                                         "onSpeechResult",
                                         false,
-                                        "Ошибка распознавания: " + error
+                                        "Речь не распознана"
                                 );
                             }
-
-                            @Override
-                            public void onResults(Bundle results) {
-
-                                ArrayList<String> matches =
-                                        results.getStringArrayList(
-                                                SpeechRecognizer.RESULTS_RECOGNITION
-                                        );
-
-                                if (matches != null &&
-                                        !matches.isEmpty()) {
-
-                                    sendToJs(
-                                            "onSpeechResult",
-                                            true,
-                                            matches.get(0)
-                                    );
-
-                                } else {
-
-                                    sendToJs(
-                                            "onSpeechResult",
-                                            false,
-                                            "Речь не распознана"
-                                    );
-                                }
-                            }
-
-                            @Override
-                            public void onPartialResults(Bundle partialResults) {
-                            }
-
-                            @Override
-                            public void onEvent(
-                                    int eventType,
-                                    Bundle params
-                            ) {
-                            }
                         }
-                );
-            }
+
+                        @Override
+                        public void onPartialResults(Bundle results) {}
+                        @Override
+                        public void onEvent(int eventType, Bundle params) {}
+                    }
+            );
 
             Intent intent = new Intent(
                     RecognizerIntent.ACTION_RECOGNIZE_SPEECH
@@ -326,13 +322,23 @@ public class MainActivity extends Activity {
 
         } catch (Exception e) {
 
+            String error = e.getMessage();
+
+            Toast.makeText(
+                    this,
+                    "Ошибка микрофона: " + error,
+                    Toast.LENGTH_LONG
+            ).show();
+
             sendToJs(
                     "onSpeechResult",
                     false,
-                    e.getMessage()
+                    error
             );
         }
     }
+
+    // РАЗРЕШЕНИЕ МИКРОФОНА
 
     @Override
     public void onRequestPermissionsResult(
